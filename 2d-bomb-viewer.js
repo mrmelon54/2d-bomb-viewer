@@ -132,7 +132,6 @@ function Bomb2DRepresentation() {
         if(this._o.scale===null) return;
         var main=$(`<div class="bomb-embed"></div>`);
         var base=$(`<div class="bomb-viewport" bomb-size="${this._o.size}" bomb-serial="${this._o.serial}" bomb-frontface-only="${this._o.frontfaceOnly}" style="overflow:hidden;"></div>`).appendTo(main);
-        base.append('<link rel="stylesheet" href="bomb-2d-representation.css">');
         var scaleLayer=$(`<div class="bomb-scaling-layer" style="transform:scale(${this._o.scale});transform-origin:top left;"></div>`).appendTo(base);
         var bomb=$(`<div class="bomb-object" style="transform-origin:center;"></div>`).appendTo(scaleLayer);
         var ff=$(`<div class="bomb-front"></div>`).appendTo(bomb);
