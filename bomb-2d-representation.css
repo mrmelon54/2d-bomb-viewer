@@ -1,0 +1,44 @@
+.bomb-viewport {border:1px solid black;perspective: 1000px;position:relative;}
+.bomb-object {position:relative;width:100%;height:100%;text-align:center;transform-style:preserve-3d;transform-origin:center;}
+.bomb-viewport[bomb-frontface-only="false"] .bomb-object.bomb-flipping {transform: rotateY(180deg);}
+.bomb-viewport[bomb-frontface-only="false"] .bomb-object.bomb-animate {transition:transform 2s;}
+.bomb-viewport .bomb-object .bomb-front, .bomb-viewport .bomb-object .bomb-back {position: absolute;width: 100%;height: 100%;backface-visibility: hidden;}
+.bomb-viewport .bomb-object .bomb-front {display:flex;align-content:flex-start;flex-wrap:wrap;}
+.bomb-viewport .bomb-object .bomb-back {transform: rotateY(180deg);display:flex;align-content:flex-start;flex-wrap:wrap;}
+.bomb-viewport .bomb-object .bomb-front br, .bomb-viewport .bomb-object .bomb-back br {flex-basis: 100%;width: 0px;height: 0px;overflow: hidden;}
+.bomb-viewport .bomb-object.bomb-flipped .bomb-front {display:none;}
+.bomb-viewport .bomb-object.bomb-flipped .bomb-back {transform:rotateY(0deg);}
+.bomb-viewport[bomb-frontface-only="true"] .bomb-flipping {display:none;}
+
+.bomb-hover-popup {
+    position:absolute;
+    top:0px;left:0px;
+    background:black;
+    border-radius:4;
+    color:white;
+    transform:translate(-50%,0px);
+}
+
+.bomb-hover-popup::before {
+    content:'';
+    position:absolute;
+    top:-10px;
+    left:50%;
+    transform:translate(-50%,0px);
+    border-left:10px solid transparent;
+    border-right:10px solid transparent;
+    border-bottom:10px solid black;
+}
+
+.bomb-module {position:relative;width:128px;height:128px;cursor:pointer;background:white;outline:2px solid black;margin:2px;}
+.bomb-module img {width:128px;height:128px;-ms-interpolation-mode:nearest-neighbor;image-rendering:-moz-crisp-edges;image-rendering:pixelated;}
+.bomb-module[bomb-solved="true"]::before {
+    content:" ";
+    width:8px;
+    height:8px;
+    background:green;
+    display:block;
+    position:absolute;
+    top:8px;
+    right:8px;
+}

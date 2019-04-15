@@ -1,0 +1,118 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="jquery.js"></script>
+<script src="bomb-2d-representation.js"></script>
+<script>
+$(document).ready(()=>{
+    function defaultClick(serial,name,tag) {
+        console.log(`Clicked modules ${name} with tag ${tag} on bomb ${serial}.`);
+    }
+
+    $('#bomb-options select[submenu="triangle"]').hide(0);
+    $('#bomb-options input[submenu="rectangle"]').parent().show(0);
+
+    // this is important miss one and it won't work
+    window.b2dr=new Bomb2DRepresentation();
+    b2dr.setSerial("ab12c3");
+    b2dr.setSize("rectangle 1x1");
+    b2dr.setFrontfaceOnly(false);
+    b2dr.setIconEmpty("icons/empty.png");
+    b2dr.setIconTimer("icons/timer.png");
+    b2dr.setScale(0.5);
+    b2dr.setClickEvent(defaultClick);
+
+    // ignore these
+    // they just load some modules onto the bomb to preview it
+    window.moduleLoadOrder=[
+        {tag:"KTANEBombTimer"}
+    ];
+    var moduleTemp=["Binary LEDs","Binary Puzzle","Binary Tree","Bitmaps","Bitwise Operations","Odd One Out","Planets","Colour Code","Snap!","Hidden Colors",
+        "Alpha","Colored Keys","Lombax Cubes","Gadgetron Vendor","LED Math","Morse Identification","Zoni","Color Match","Pay Respects","Ice Cream","Fast Math",
+        "The Troll","Westeros","Homophones","Simon Squawks","Free Parking","Simon's Stages","The Hangover","Skinny Wires","The Festive Jukebox","Spinning Buttons",
+        "The Labyrinth","Street Fighter","Needy Mrs Bob","Hieroglyphics","Christmas Presents","The Triangle","Modulo","Retirement","The Crystal Maze",
+        "Blockbusters","Countdown","Catchphrase","T-Words","The Jack-O'-Lantern","The Plunger Button","Accumulation","Snooker","Coffeebucks","The Sphere",
+        "Quintuples","Sonic & Knuckles","Horrible Memory","Benedict Cumberbatch","Wire Spaghetti","Reverse Morse","Flashing Lights","British Slang",
+        "Alphabet Numbers","The Number Cipher","The Stock Market","Simon's Star","Lightspeed","Guitar Chords","Graffiti Numbers","The Jewel Vault",
+        "Tax Returns","The Moon","The Cube","The Sun","The Wire","The London Underground","The Stopwatch","Rapid Buttons","European Travel","Skyrim","The Swan",
+        "The iPhone","LED Grid","Mortal Kombat","Maintenance","Identity Parade","The Jukebox","Algebra","Sonic The Hedgehog","Poker","Symbolic Coordinates",
+        "The Hypercube","Fizzbuzz","Complicated Buttons","Symbolic Password","Button Sequence","Color Morse","Simon Speaks","Hogwarts","Regular Crazy Talk",
+        "Simon Spins","Mahjong","101 Dalmatians","Tennis","Pattern Cube","Black Hole","Simon Sings"];
+    for(var i=0;i<moduleTemp.length;i++) {
+        moduleLoadOrder.push({name:moduleTemp[i],tag:moduleTemp[i]+" #1",icon:"icons/"+moduleTemp[i].replace('\'','’')+".png",solved:false});
+    }
+
+    // these are for the select/inputs to remember the last selection
+    window.lastTriangleN="2";
+    window.lastRectangleW="1";
+    window.lastRectangleH="1";
+    window.lastPreSize="rectangle";
+
+    updateSetup();
+})
+// used to generate the bomb
+function updateSetup(triangleN,rectangleW,rectangleH) {
+    $('#bomb-options select[submenu]').hide();
+    $('#bomb-options input[submenu]').parent().hide();
+    if(triangleN!=null) lastTriangleN=triangleN;
+    if(rectangleW!=null) lastRectangleW=rectangleW;
+    if(rectangleH!=null) lastRectangleH=rectangleH;
+    var ext="";
+    if(lastPreSize=="triangle") {
+        ext=" "+lastTriangleN;
+        $('#bomb-options select[submenu="triangle"]').show();
+    }
+    if(lastPreSize=="rectangle") {
+        ext=" "+lastRectangleW+"x"+lastRectangleH;
+        $('#bomb-options input[submenu="rectangle"]').parent().show();
+    }
+    var ff=[];
+    var bf=[];
+    b2dr.setSize(lastPreSize+ext);
+    var ci=new CasingInfo().getByCasingTag(lastPreSize+ext);
+    for(var i=0;i<ci.modules;i++) {
+        if(i<moduleLoadOrder.length) {
+            if(i<(ci.modules/2)) {
+                ff.push(moduleLoadOrder[i]);
+            } else {
+                bf.push(moduleLoadOrder[i]);
+            }
+        } else {
+            if(i<(ci.modules/2)) {
+                ff.push({});
+            } else {
+                bf.push({});
+            }
+        }
+    }
+    b2dr.setFrontfaceModules(ff);
+    b2dr.setBackfaceModules(bf);
+    $("#bomb-test").html('');
+    $("#bomb-test").append(b2dr.generateHTML());
+}
+</script>
+<div id="bomb-options">
+    <select onchange="lastPreSize=this.value;updateSetup();" multiple style="height:104px;overflow:auto;">
+        <option value="rectangle" selected>Rectangle &lt;n&gt;x&lt;n&gt;</option>
+        <option value="triangle">Triangle &lt;n&gt;</option>
+        <option value="small ring">small ring</option>
+        <option value="large ring">large ring</option>
+        <option value="centurion">centurion</option>
+        <option value="bomb defusing 101">bomb defusing 101</option>
+    </select>
+    <select onchange="updateSetup(this.value,null,null);" multiple submenu="triangle" style="height:172px;overflow:auto;">
+        <option value="2" selected>2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="special">special</option>
+    </select>
+    <label>Width: <input onchange="updateSetup(null,this.value,null);" text="number" submenu="rectangle" type="width" value="1"></label>
+    <label>Height: <input onchange="updateSetup(null,null,this.value);" text="number" submenu="rectangle" type="height" value="1"></label>
+</div>
+<body style="overflow:hidden;">
+    <div id="bomb-test"></div>
+</body>
