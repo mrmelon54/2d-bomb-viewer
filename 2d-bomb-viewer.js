@@ -1,5 +1,5 @@
 
-function Bomb2DRepresentation() {
+function BombViewer() {
     // valid sizes
     // this is not used in the script but useful for you to read
     var validSizes=[
