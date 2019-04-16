@@ -12,14 +12,14 @@ $(document).ready(()=>{
     $('#bomb-options input[submenu="rectangle"]').parent().show(0);
 
     // this is important miss one and it won't work
-    window.b2dr=new Bomb2DRepresentation();
-    b2dr.setSerial("ab12c3");
-    b2dr.setSize("rectangle 1x1");
-    b2dr.setFrontfaceOnly(false);
-    b2dr.setIconEmpty("icons/empty.png");
-    b2dr.setIconTimer("icons/timer.png");
-    b2dr.setScale(0.5);
-    b2dr.setClickEvent(defaultClick);
+    window.bv=new BombViewer();
+    bv.setSerial("ab12c3");
+    bv.setSize("rectangle 1x1");
+    bv.setFrontfaceOnly(false);
+    bv.setIconEmpty("icons/empty.png");
+    bv.setIconTimer("icons/timer.png");
+    bv.setScale(0.5);
+    bv.setClickEvent(defaultClick);
 
     // ignore these
     // they just load some modules onto the bomb to preview it
@@ -67,7 +67,7 @@ function updateSetup(triangleN,rectangleW,rectangleH) {
     }
     var ff=[];
     var bf=[];
-    b2dr.setSize(lastPreSize+ext);
+    bv.setSize(lastPreSize+ext);
     var ci=new CasingInfo().getByCasingTag(lastPreSize+ext);
     for(var i=0;i<ci.modules;i++) {
         if(i<moduleLoadOrder.length) {
@@ -84,10 +84,10 @@ function updateSetup(triangleN,rectangleW,rectangleH) {
             }
         }
     }
-    b2dr.setFrontfaceModules(ff);
-    b2dr.setBackfaceModules(bf);
+    bv.setFrontfaceModules(ff);
+    bv.setBackfaceModules(bf);
     $("#bomb-test").html('');
-    $("#bomb-test").append(b2dr.generateHTML());
+    $("#bomb-test").append(bv.generateHTML());
 }
 </script>
 <div id="bomb-options">
