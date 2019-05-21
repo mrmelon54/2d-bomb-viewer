@@ -54,8 +54,8 @@ function BombViewer() {
             back:null
         },
         icons:{
-            empty:"icons/empty.png",
-            timer:"icons/timer.png"
+            empty:"empty.png",
+            timer:"timer.png"
         },
         iconSize:128,
         scale:1,
