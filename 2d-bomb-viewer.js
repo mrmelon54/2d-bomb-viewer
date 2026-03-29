@@ -136,7 +136,7 @@ function BombViewer() {
         var bomb=$(`<div class="bomb-object" style="transform-origin:center;"></div>`).appendTo(scaleLayer);
         var ff=$(`<div class="bomb-front"></div>`).appendTo(bomb);
         var bf=$(`<div class="bomb-back"></div>`).appendTo(bomb);
-        var btn=$(`<div class="bomb-flipping bomb-module" style="transform:scale(${this._o.scale});"><img src="icons/flip.png"></div>`).appendTo(main);
+        var btn=$(`<div class="bomb-flipping bomb-module" style="transform:scale(${this._o.scale});"><img src="flip.png"></div>`).appendTo(main);
         var moduleArray=[];
         var _s=this._o.size;
         var _m=0;
